@@ -1,0 +1,45 @@
+## @file
+# Check CODEOWNERS, REVIEWERS, and Maintainers.txt files.
+#
+# Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+name: Check CODEOWNERS, REVIEWERS, and Maintainers.txt files
+
+#
+# If reviewers_path is specified for github-action-check-codeowners-maintainers
+# then add reviewers_path to set of paths that are triggered bu this action. 
+#
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+    paths:
+      - 'CODEOWNERS'
+      - 'docs/CODEOWNERS'
+      - '.github/CODEOWNERS'
+      - 'REVIEWERS'
+      - 'docs/REVIEWERS'
+      - '.github/REVIEWERS'
+      - 'Maintainers.txt'
+
+jobs:
+  check_codeowners_maintainers:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Pull Request
+        uses: actions/checkout@v2
+      - name: CODEOWNERS Validator
+        uses: mszostok/codeowners-validator@v0.7.4
+          with:
+            checks: "files,owners,duppatterns,syntax"
+            experimental_checks: "notowned,avoid-shadowing"
+            github_access_token: ${{secrets.GITHUB_TOKEN}}
+      - name: Check CODEOWNERS, REVIEWERS, and Maintainers.txt files
+        uses: mdkinney/github-action-check-codeowners-maintainers@main
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}

@@ -1,0 +1,47 @@
+## @file
+# Check CODEOWNERS, REVIEWERS, and Maintainers.txt files.
+#
+# Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+name: 'Check CodeOwners Maintainers'
+
+description: Check CODEOWNERS, REVIEWERS, and Maintainers.txt files
+
+inputs:
+  token:
+    description: token used to update PR reviewers
+    required: true
+    default: ''
+  reviewers_path:
+    description: path to REVIEWERS file if not in supported default locations.
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Copy pip requirements
+      run: cp ${{ github.action_path }}/pip-requirements.txt ${{github.workspace}}/.github-action-check-codeowners-maintainers-pip-requirements.txt
+      shell: bash
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Cache Python Dependencies
+      id: cache-python-dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.pythonLocation }}
+        key: ${{ env.pythonLocation }}-${{ hashFiles('.github-action-check-codeowners-maintainers-pip-requirements.txt') }}
+    - name: Install Python Dependencies
+      if: steps.cache-python-dependencies.outputs.cache-hit != 'true'
+      run: pip install -r ${{ github.action_path }}/pip-requirements.txt
+      shell: bash
+    - name: Check CODEOWNERS, REVIEWERS, and Maintainers.txt files
+      run: python ${{ github.action_path }}/src/CheckCodeOwnersMaintainers.py
+      env:
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_REVIEWERS_PATH: ${{ inputs.reviewers_path }}
+      shell: bash
