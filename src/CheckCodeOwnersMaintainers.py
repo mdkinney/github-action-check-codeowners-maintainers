@@ -152,6 +152,8 @@ class CheckCodeOwnersMaintainers (object):
 
 def GetOwners(File, Sections):
     List = GetMaintainer.get_maintainers(File, Sections)
+    if List is None:
+        return [], []
     Maintainers = []
     Reviewers = []
     for Item in List:
