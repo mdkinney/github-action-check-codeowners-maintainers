@@ -1,22 +1,28 @@
 ## @file
 # Check CODEOWNERS coverage of all files in PR
 #
+# Only run this check if one or more files modified in the PR
+# are not CODEOWNERS, REVIEWERS, or Maintainers.txt.
+#
 # Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
 # SPDX-License-Identifier: BSD-2-Clause-Patent
 ##
 
 name: Check CODEOWNERS coverage of all files in PR
 
-#
-# If reviewers_path is specified for github-action-check-codeowners-maintainers
-# then add reviewers_path to set of paths that are triggered bu this action. 
-#
-
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - main
+    paths-ignore:
+      - 'CODEOWNERS'
+      - 'docs/CODEOWNERS'
+      - '.github/CODEOWNERS'
+      - 'REVIEWERS'
+      - 'docs/REVIEWERS'
+      - '.github/REVIEWERS'
+      - 'Maintainers.txt'
 
 jobs:
   codeowners_files_validator:
