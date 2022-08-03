@@ -1,0 +1,33 @@
+## @file
+# Check CODEOWNERS coverage of all files in PR
+#
+# Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+name: Check CODEOWNERS coverage of all files in PR
+
+#
+# If reviewers_path is specified for github-action-check-codeowners-maintainers
+# then add reviewers_path to set of paths that are triggered bu this action. 
+#
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+
+jobs:
+  codeowners_files_validator:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Pull Request
+        uses: actions/checkout@v2
+      - name: CODEOWNERS Validator
+        uses: mszostok/codeowners-validator@v0.7.4
+        with:
+          checks: "files"
+          experimental_checks: "notowned"
+          github_access_token: ${{secrets.GITHUB_TOKEN}}
