@@ -60,6 +60,6 @@ L: https://edk2.groups.io/g/devel/
 T: git - https://github.com/tianocore/edk2.git
 T: git (mirror) - https://bitbucket.org/tianocore/edk2.git
 
-F: *
+F: foo/*
 M: Michael D Kinney <michael.d.kinney@intel.com> [mdkinney]
 R: Michael D Kinney <michael.d.kinney@intel.com> [mdkinney]
