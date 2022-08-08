@@ -40,7 +40,7 @@ runs:
       run: pip install -r ${{ github.action_path }}/pip-requirements.txt
       shell: bash
     - name: Check CODEOWNERS, REVIEWERS, and Maintainers.txt files
-      run: python ${{ github.action_path }}/src/CheckCodeOwnersMaintainers.py
+      run: python -u ${{ github.action_path }}/src/CheckCodeOwnersMaintainers.py
       env:
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_REVIEWERS_PATH: ${{ inputs.reviewers_path }}
