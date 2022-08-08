@@ -111,7 +111,7 @@ def get_maintainers(path, sections, level=0):
     if not maintainers:
         # If no match found, look for match for (nonexistent) file
         # REPO.working_dir/<default>
-        print('"%s": no maintainers found, looking for default' % path)
+        # print('"%s": no maintainers found, looking for default' % path)
         if level == 0:
             maintainers = get_maintainers('<default>', sections, level=level + 1)
         else:
