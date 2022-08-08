@@ -73,7 +73,7 @@ jobs:
           [[ -e CODEOWNERS ]]         && rm CODEOWNERS
           [[ -e docs/CODEOWNERS ]]    && rm docs/CODEOWNERS
           [[ -e .github/CODEOWNERS ]] && rm .github/CODEOWNERS
-          [[ -e REVIEWERS ][]         && cp REVIEWERS CODEOWNERS
+          [[ -e REVIEWERS ]]          && cp REVIEWERS CODEOWNERS
           [[ -e docs/REVIEWERS ]]     && cp docs/REVIEWERS docs/CODEOWNERS
           [[ -e .github/REVIEWERS]]   && cp .github/REVIEWERS .github/CODEOWNERS
       - name: REVIEWERS Validator
@@ -94,7 +94,7 @@ jobs:
           [[ -e CODEOWNERS ]]         && rm CODEOWNERS
           [[ -e docs/CODEOWNERS ]]    && rm docs/CODEOWNERS
           [[ -e .github/CODEOWNERS ]] && rm .github/CODEOWNERS
-          [[ -e REVIEWERS ][]         && cp REVIEWERS CODEOWNERS
+          [[ -e REVIEWERS ]]          && cp REVIEWERS CODEOWNERS
           [[ -e docs/REVIEWERS ]]     && cp docs/REVIEWERS docs/CODEOWNERS
           [[ -e .github/REVIEWERS]]   && cp .github/REVIEWERS .github/CODEOWNERS
       - name: REVIEWERS Validator
