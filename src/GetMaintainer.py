@@ -108,12 +108,16 @@ def get_maintainers(path, sections, level=0):
         if tmp_lists:
             lists += tmp_lists
 
-    if not maintainers:
+    MaintainersFound = False
+    for item in maintainers:
+        if item.strip().startswith('M:'):
+            MaintainersFound = True
+    if not MaintainersFound:
         # If no match found, look for match for (nonexistent) file
         # REPO.working_dir/<default>
         # print('"%s": no maintainers found, looking for default' % path)
         if level == 0:
-            maintainers = get_maintainers('<default>', sections, level=level + 1)
+            maintainers += get_maintainers('<default>', sections, level=level + 1)
         else:
             print("No <default> maintainers set for project.")
         if not maintainers:

@@ -168,7 +168,8 @@ def GetOwners(File, Sections):
         else:
           Reviewers.append(Item.rsplit('<')[1].rsplit('>')[0])
     Maintainers = list(set(Maintainers))
-    Reviewers = list(set(Reviewers))
+    # If someone is a maintainer, then they can not also be a reviewer
+    Reviewers = list(set(Reviewers) - set(Maintainers))
     Maintainers.sort()
     Reviewers.sort()
     return Maintainers, Reviewers
@@ -205,6 +206,8 @@ if __name__ == '__main__':
           print (f"  Maintainers.txt: {Maintainers}")
           CodeOwnerMismatchCount += 1
       CodeOwnersReviewers = [x[1] for x in LookupReviewers.of (File)]
+      # If someone is a maintainer, then they can not also be a reviewer
+      CodeOwnersReviewers = list(set(CodeOwnersReviewers) - set(CodeOwnersMaintainers))
       CodeOwnersReviewers.sort()
       if CodeOwnersReviewers != Reviewers:
           print (f"Reviewer mismatch for File: {File}")
