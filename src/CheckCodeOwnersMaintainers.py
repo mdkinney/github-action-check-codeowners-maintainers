@@ -151,22 +151,19 @@ class CheckCodeOwnersMaintainers (object):
                       )
 
 def GetOwners(File, Sections):
-    List = GetMaintainer.get_maintainers(File, Sections)
-    if List is None:
-        return [], []
+    MaintainerList, ReviewerList, _ = GetMaintainer.get_maintainers(File, Sections)
     Maintainers = []
     Reviewers = []
-    for Item in List:
-      if Item.startswith('M:'):
-        if '[' in Item:
-          Maintainers.append('@' + Item.rsplit('[')[1].rsplit(']')[0])
-        else:
-          Maintainers.append(Item.rsplit('<')[1].rsplit('>')[0])
-      if Item.startswith('R:'):
-        if '[' in Item:
-          Reviewers.append('@' + Item.rsplit('[')[1].rsplit(']')[0])
-        else:
-          Reviewers.append(Item.rsplit('<')[1].rsplit('>')[0])
+    for Item in MaintainerList:
+      if '[' in Item:
+        Maintainers.append('@' + Item.rsplit('[')[1].rsplit(']')[0])
+      else:
+        Maintainers.append(Item.rsplit('<')[1].rsplit('>')[0])
+    for Item in ReviewerList:
+      if '[' in Item:
+        Reviewers.append('@' + Item.rsplit('[')[1].rsplit(']')[0])
+      else:
+        Reviewers.append(Item.rsplit('<')[1].rsplit('>')[0])
     Maintainers = list(set(Maintainers))
     # If someone is a maintainer, then they can not also be a reviewer
     Reviewers = list(set(Reviewers) - set(Maintainers))
